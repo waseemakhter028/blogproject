@@ -1,0 +1,157 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "REST API for Swagger Documentation",
+    "version": "1.0.0"
+  },
+  "schemes": ["http"],
+  "servers": [{ "url": "http://localhost:5000/api" }],
+  "parameters": {
+    "Authrization": {
+      "in": "header",
+      "name": "authrization",
+      "type": "string",
+      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indhc2VlbUB5b3BtYWlsLmNvbSIsInVzZXJJZCI6IjYxNmE4MmQyNzQwZTk5MzY4OTNmZTdiNCIsImlhdCI6MTYzNzY2NzkxMSwiZXhwIjoxNjQwMDg3MTExfQ.sOiVb2KjS_5mfUJSPKi9Iymx4mr8LJb3UElGuZ3999Q",
+      "default": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Indhc2VlbUB5b3BtYWlsLmNvbSIsInVzZXJJZCI6IjYxNmE4MmQyNzQwZTk5MzY4OTNmZTdiNCIsImlhdCI6MTYzNzY2NzkxMSwiZXhwIjoxNjQwMDg3MTExfQ.sOiVb2KjS_5mfUJSPKi9Iymx4mr8LJb3UElGuZ3999Q,"
+    }
+  },
+  "tags": {
+    "name": "Help Blog Project",
+    "description": "Endpoints for Help Blog Project"
+  },
+
+  "paths": {
+    "/?page=1": {
+      "get": {
+        "tags": ["Codes"],
+        "summary": "Get All Categorires",
+        "description": "Get All Categorires",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Categorires/get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/getsubcat/{id}": {
+      "get": {
+        "tags": ["Codes"],
+        "summary": "Get All Sub Categorires",
+        "description": "Get All Sub Categorires",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "example": 1,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Categorires/get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/viewcode/{id}": {
+      "get": {
+        "tags": ["Codes"],
+        "summary": "View Code",
+        "description": "View Code",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "example": 1,
+            "default": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Categorires/get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/filtercodes": {
+      "post": {
+        "tags": ["Codes"],
+        "summary": "Filter Codes",
+        "description": "Filter Codes",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "required": true,
+                    "default": "filtercodes"
+                  },
+                  "subcat_ids": {
+                    "type": "array",
+                    "required": true,
+                    "default": [41]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definations/schemas/Categorires/get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definations": {
+    "schemas": {
+      "Categorires": {
+        "get": {
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Data Retirved Successfully"
+            }
+          }
+        }
+      }
+    }
+  }
+}

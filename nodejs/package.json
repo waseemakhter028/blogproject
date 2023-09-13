@@ -1,0 +1,28 @@
+{
+  "name": "nodelearning",
+  "version": "1.0.0",
+  "description": "node learning",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "http-status": "^1.5.0",
+    "mysql2": "^3.6.0",
+    "sequelize": "^6.17.0",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "sequelize-cli": "^6.4.1",
+    "swagger-autogen": "^2.23.5"
+  }
+}
