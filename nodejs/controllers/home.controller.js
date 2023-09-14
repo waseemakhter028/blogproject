@@ -11,10 +11,32 @@ const index = async (req, res) => {
   try {
     const category = await Category.findAll({
       attributes: ["id", "name"],
+      // checking category has one sub category
+      include: [ 
+        { 
+          model: SubCategory, 
+          attributes: ["id", "name"],
+          // checking sub category has one code
+          include: [ 
+            { 
+              model: Code, 
+              attributes: [],
+              required:true,
+              where: { status: 1 },
+            }
+          ],
+          // separate:true,
+          required:true,
+          where: { status: 1 },
+          order:  [['name', 'ASC']]
+        }
+      ],
       where: {
         status: 1,
+        '$SubCategories.category_id$':  {[Op.ne]: null}, // at least one sub category
+        '$SubCategories.Codes.sub_category_id$':  {[Op.ne]: null} // at least one code
       },
-      order: [["name", "ASC"]],
+      order: [["name", "ASC"], [{model: SubCategory}, 'name', 'ASC']], // order by parent and child model
     });
 
     const codes = await Code.findAll({
@@ -26,7 +48,7 @@ const index = async (req, res) => {
       order: [["id", "DESC"]],
     });
 
-    totalCodes = await Code.count()
+    const totalCodes = await Code.count()
 
     res.status(200).json({
       status: 200,
@@ -88,11 +110,8 @@ const viewCode = async (req, res) => {
 
 const filtercodes = async (req, res) => {
   const { action, subcat_ids } = req.body
-  let codes = null;
   let all   = null;
   const whereCondition = [];
-  const orderBy = [];
-
   try {
     if(action === 'filtercodes' && Array.isArray(subcat_ids)){
       
@@ -100,7 +119,7 @@ const filtercodes = async (req, res) => {
       all = 0;
     }
 
-    if( typeof action !== 'undefined' && typeof action === 'clearfilter'  || (typeof subcat_ids !== 'undefined' && subcat_ids==null)){
+    if( typeof action !== 'undefined' &&  action === 'clearfilter'  || (typeof subcat_ids !== 'undefined' && subcat_ids==null)){
       whereCondition.push({status: 1});
       all = 1;
     }

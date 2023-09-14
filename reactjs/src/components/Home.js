@@ -16,7 +16,7 @@ const Home = () => {
   const [pages, setPages] = useState("");
   const [rst, setRst] = useState(1);
 
-  useEffect(()=>{},[loader]);
+  useEffect(() => {}, [loader]);
 
   const getData = async (pageNumber = 1) => {
     window.scrollTo(0, 0);
@@ -161,6 +161,7 @@ const Home = () => {
                                 catId={cat.id}
                                 filterData={filterData}
                                 filterBtn={filterBtn}
+                                subcats={cat.SubCategories}
                               />
                             </ul>
                           </div>

@@ -1,22 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { $ } from "react-jquery-plugin";
-const GetSubCat = ({ catId, filterData, filterBtn }) => {
-  const [subcats, setSubCats] = useState([]);
-  const getData = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_URL}/getsubcat/${catId}`
-      );
-      const data = await response.json();
-      setSubCats(data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+const GetSubCat = ({ catId, filterData, filterBtn, subcats }) => { 
 
   const handleCheckbox = async (e) => {
-    var chkArray = [];
-
+    let chkArray = [];
     // Look for all checkboxes that have a specific class and was checked
     $(".chk:checked").each(function () {
       chkArray.push(parseInt($(this).val()));
@@ -30,8 +17,8 @@ const GetSubCat = ({ catId, filterData, filterBtn }) => {
 
     try {
       const subIds = [];
-      for (var i = 0; i < chkArray.length; i++) {
-        subIds.push(chkArray[i]);
+      for (let i of chkArray) {
+        subIds.push(i);
       }
       const formData = {
             action: "filtercodes",
@@ -57,15 +44,15 @@ const GetSubCat = ({ catId, filterData, filterBtn }) => {
     }
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   return (
     <React.Fragment>
       {subcats.map((sub, i) => (
-        <li key={i}>
-          <label className="form-check-label lblchk" key={i}>
+        <li key={sub.id}>
+          <label className="form-check-label lblchk" key={sub.id}>
             <input
               type="checkbox"
               className="chk"
