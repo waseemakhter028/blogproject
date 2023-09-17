@@ -41,7 +41,7 @@ Route::group(['prefix' => 'adminpanel'], function () {
         Route::any('subcategory/add', [CategoryController::class, 'subcategoryAdd']);
         Route::any('subcategory/edit/{id?}',  [CategoryController::class, 'subcategoryEdit']);
 
-        Route::get('code/list', [CodeAdminController::class, 'code']);
+        Route::get('code/list', [CodeController::class, 'code']);
         Route::any('code/add', [CodeController::class, 'codeAdd']);
         Route::any('code/edit/{id?}', [CodeController::class, 'codeEdit']);
         Route::get('code/delete/{id?}', [CodeController::class, 'codeDelete']);
