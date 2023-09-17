@@ -13,33 +13,19 @@ class HomeApiController extends Controller
 {
     protected function index()
     {
-        $allcat  = Category::where('status',1)->select('id')->get();
-        $category_ids  = [];
-
-        foreach($allcat  as $cat):
-            $subcat = SubCategory::where('category_id',$cat->id)->where('status',1)->first();
-            if(!empty($subcat))
-            {
-                $codecheck = Code::where('sub_category_id',$subcat->id)->where('status',1)->first();
-                if(!empty($codecheck))
-                {
-                    array_push($category_ids,$cat->id);
-                }
-
-            }
-        endforeach;
-
-        $category  = Category::whereIn('id',$category_ids)->where('status',1)->select('id','name')->orderBy('name','ASC')->get();
-
-
+        $category  = Category::with('subCategories')->whereHas('subCategories', function($subCatQuery) {
+          $subCatQuery->whereHas('codes', function($codeQuery){
+            $codeQuery->where('status', 1);
+          })->where('status', 1);
+        })->where('status',1)->orderBy('name','ASC')->get();
 
         $codes = Code::where('status',1)->orderBy('id','DESC')->paginate(6);
 
-         return response()->json( [
+        return response()->json([
           'status'     =>200,
           'categories' => $category,
           'codes'      => $codes
-         ]);
+        ]);
 
     }//index method close
 

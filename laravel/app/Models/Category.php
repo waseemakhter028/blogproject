@@ -7,9 +7,12 @@ use App\Models\SubCategory;
 
 class Category extends Model
 {
-    
-    public function subcategory()
-{
-    return $this->hasMany(SubCategory::class, 'category_id', 'id');
-}
+    protected $fillable = [
+        'name', 'status'
+    ];
+
+    public function subCategories()
+    {
+        return $this->hasMany(SubCategory::class);
+    }
 }
