@@ -4,7 +4,7 @@
                     @forelse($codes as $row)
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{ url('/public/upload/'.$row->image) }}">
+                                <div class="product__item__pic set-bg" data-setbg="{{ url('/upload/'.$row->image) }}">
                                     
                                 </div>
                                 <div class="product__item__text">
@@ -17,8 +17,8 @@
                          <span class="text-danger text-center">No Record Found</span>
                         @endforelse
                         
- <script src="{{ url('/public/web/') }}/js/main.js"></script>                       </div>
-<script src="{{ url('/public/web/js/paginathing.js') }}"></script>
+ <script src="{{ asset('/web/') }}/js/main.js"></script>                       </div>
+<script src="{{ asset('/web/js/paginathing.js') }}"></script>
 
 
 <script>

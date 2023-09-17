@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Code;
-use DB;
 
 class HomeApiController extends Controller
 {
@@ -17,7 +16,7 @@ class HomeApiController extends Controller
           $subCatQuery->whereHas('codes', function($codeQuery){
             $codeQuery->where('status', 1);
           })->where('status', 1);
-        })->where('status',1)->orderBy('name','ASC')->get();
+        })->select('id', 'name')->where('status',1)->orderBy('name','ASC')->get();
 
         $codes = Code::where('status',1)->orderBy('id','DESC')->paginate(6);
 

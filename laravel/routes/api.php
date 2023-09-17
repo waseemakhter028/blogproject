@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\HomeApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::get('/','API\HomeApiController@index');
-Route::get('getsubcat/{id}','API\HomeApiController@getSubCat');
-Route::get('viewcode/{id}','API\HomeApiController@viewCode');
-Route::post('filtercodes','API\HomeApiController@filtercodes');
+Route::get('/', [HomeApiController::class, 'index']);
+Route::get('getsubcat/{id}', [HomeApiController::class, 'getSubCat']);
+Route::get('viewcode/{id}', [HomeApiController::class, 'viewCode']);
+Route::post('filtercodes', [HomeApiController::class, 'filtercodes']);

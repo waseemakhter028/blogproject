@@ -6,9 +6,9 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
- <!--  <link rel="icon" href="https://www.digineoprojects.com/biznovator/dev/public/assets/img/favicon.ico" type="image/x-icon"> -->
+ <!--  <link rel="icon" href="https://www.digineoprojects.com/biznovator/dev/assets/img/favicon.ico" type="image/x-icon"> -->
    <!-- Favicon icon -->
-   <link rel="icon" href="{{url('/public/admin_assets/assets/images/fav.png')}}" type="image/x-icon">
+   <link rel="icon" href="{{url('/admin_assets/assets/images/fav.png')}}" type="image/x-icon">
 
  <style type="text/css">
     @import  url(https://fonts.googleapis.com/css?family=opensans:500);

@@ -118,7 +118,7 @@
                     @forelse($codes as $row)
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="{{ url('/public/upload/'.$row->image) }}">
+                                <div class="product__item__pic set-bg" data-setbg="{{ url('/upload/'.$row->image) }}">
                                     
                                 </div>
                                 <div class="product__item__text">
@@ -143,7 +143,7 @@
 @endsection
 
 @section('jquerycode')
-<script src="{{ url('/public/web/js/paginathing.js') }}"></script>
+<script src="{{ asset('/web/js/paginathing.js') }}"></script>
 <script>
 
     function addCheck(mid,sid)

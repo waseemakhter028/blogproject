@@ -31,17 +31,17 @@
 <!-- Search End -->
 
 <!-- Js Plugins -->
-<script src="{{ url('/public/web/') }}/js/jquery-3.3.1.min.js"></script>
-<script src="{{ url('/public/web/') }}/js/bootstrap.min.js"></script>
-<script src="{{ url('/public/web/') }}/js/jquery.nice-select.min.js"></script>
-<script src="{{ url('/public/web/') }}/js/jquery.nicescroll.min.js"></script>
-<script src="{{ url('/public/web/') }}/js/jquery.magnific-popup.min.js"></script>
-<script src="{{ url('/public/web/') }}/js/jquery.countdown.min.js"></script>
-<script src="{{ url('/public/web/') }}/js/jquery.slicknav.js"></script>
-<script src="{{ url('/public/web/') }}/js/mixitup.min.js"></script>
-<script src="{{ url('/public/web/') }}/js/owl.carousel.min.js"></script>
-<script src="{{ url('/public/web/') }}/js/main.js"></script>
-<script src="{{ url('/public/web/') }}/js/prism.js"></script>
+<script src="{{ asset('/web/') }}/js/jquery-3.3.1.min.js"></script>
+<script src="{{ asset('/web/') }}/js/bootstrap.min.js"></script>
+<script src="{{ asset('/web/') }}/js/jquery.nice-select.min.js"></script>
+<script src="{{ asset('/web/') }}/js/jquery.nicescroll.min.js"></script>
+<script src="{{ asset('/web/') }}/js/jquery.magnific-popup.min.js"></script>
+<script src="{{ asset('/web/') }}/js/jquery.countdown.min.js"></script>
+<script src="{{ asset('/web/') }}/js/jquery.slicknav.js"></script>
+<script src="{{ asset('/web/') }}/js/mixitup.min.js"></script>
+<script src="{{ asset('/web/') }}/js/owl.carousel.min.js"></script>
+<script src="{{ asset('/web/') }}/js/main.js"></script>
+<script src="{{ asset('/web/') }}/js/prism.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
 @yield('jquerycode')

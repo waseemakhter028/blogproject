@@ -16,16 +16,16 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="{{url('/public/web/')}}/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="{{url('/public/web/')}}/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="{{url('/public/web/')}}/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="{{url('/public/web/')}}/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="{{url('/public/web/')}}/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="{{url('/public/web/')}}/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="{{url('/public/web/')}}/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="{{url('/public/web/')}}/css/style.css" type="text/css">
-    <link rel="stylesheet" href="{{url('/public/web/')}}/css/prism.css" type="text/css">
-    <link rel="icon" href="{{url('/public/admin_assets/assets/images/fav.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href="{{asset('/web/')}}/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('/web/')}}/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('/web/')}}/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('/web/')}}/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('/web/')}}/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('/web/')}}/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('/web/')}}/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('/web/')}}/css/style.css" type="text/css">
+    <link rel="stylesheet" href="{{asset('/web/')}}/css/prism.css" type="text/css">
+    <link rel="icon" href="{{asset('/admin_assets/assets/images/fav.png')}}" type="image/x-icon">
 @yield('csscode')
 </head>
 
