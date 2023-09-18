@@ -23,7 +23,6 @@
     "helmet": "^7.0.0",
     "http-status": "^1.5.0",
     "mysql2": "^3.6.1",
-    "node-cron": "^3.0.2",
     "sequelize": "^6.17.0",
     "swagger-ui-express": "^5.0.0"
   },
