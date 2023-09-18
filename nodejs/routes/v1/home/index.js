@@ -4,9 +4,9 @@ const { index, getSubCat, viewCode, filtercodes } = require('../../../controller
 
 const router = Router()
 
-router.get('/', index);
-router.get('/getsubcat/:id', getSubCat);
-router.get('/viewcode/:id', viewCode);
+router.get('/', index)
+router.get('/getsubcat/:id', getSubCat)
+router.get('/viewcode/:id', viewCode)
 router.post('/filtercodes', filtercodes)
 
-module.exports = router;
+module.exports = router

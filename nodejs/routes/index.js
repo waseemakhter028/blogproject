@@ -6,4 +6,4 @@ const router = Router()
 
 router.use('/api', routesV1)
 
-module.exports = router;
+module.exports = router

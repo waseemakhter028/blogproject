@@ -1,4 +1,5 @@
-"use strict";
+/* eslint-disable no-unused-vars */
+'use strict'
 
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -12,51 +13,51 @@ module.exports = {
      * }], {});
      */
     await queryInterface.bulkInsert(
-      "users",
+      'users',
       [
         {
-          name: "john",
-          email: "john@gmail.com",
-          city: "DP",
+          name: 'john',
+          email: 'john@gmail.com',
+          city: 'DP',
           age: 22,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          name: "seth",
-          email: "seth@gmail.com",
-          city: "MP",
+          name: 'seth',
+          email: 'seth@gmail.com',
+          city: 'MP',
           age: 25,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          name: "roman",
-          email: "roman@gmail.com",
-          city: "HP",
+          name: 'roman',
+          email: 'roman@gmail.com',
+          city: 'HP',
           age: 28,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          name: "deen",
-          email: "deen@gmail.com",
-          city: "JP",
+          name: 'deen',
+          email: 'deen@gmail.com',
+          city: 'JP',
           age: 30,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          name: "miz",
-          email: "miz@gmail.com",
-          city: "UP",
+          name: 'miz',
+          email: 'miz@gmail.com',
+          city: 'UP',
           age: 29,
           createdAt: new Date(),
           updatedAt: new Date()
         }
       ],
       {}
-    );
+    )
   },
 
   async down(queryInterface, Sequelize) {
@@ -67,7 +68,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     await queryInterface.bulkDelete('users', null, {
-      truncate: true,
-    });
-  },
-};
+      truncate: true
+    })
+  }
+}

@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class SubCategory extends Model {
     /**
@@ -14,16 +12,19 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.Category, { sourceKey: 'category_id', foreignKey: 'id' })
     }
   }
-  SubCategory.init({
-    name: DataTypes.STRING,
-    category_id: DataTypes.INTEGER,
-    status: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'SubCategory',
-    tableName: 'sub_categories',
-    timestamps: true,
-    underscored: true
-  });
-  return SubCategory;
-};
+  SubCategory.init(
+    {
+      name: DataTypes.STRING,
+      category_id: DataTypes.INTEGER,
+      status: DataTypes.INTEGER
+    },
+    {
+      sequelize,
+      modelName: 'SubCategory',
+      tableName: 'sub_categories',
+      timestamps: true,
+      underscored: true
+    }
+  )
+  return SubCategory
+}
