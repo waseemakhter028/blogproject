@@ -3,15 +3,32 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
 const errorHandler = require('./middlewares/error-handler.js')
-
+const cron = require('node-cron')
+const helmet = require('helmet')
+const compression = require('compression')
 const app = express()
 const Routes = require('./routes')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger.json')
+const db = require('./models')
+const { QueryTypes } = require('sequelize')
 
 global.appRoot = path.join(__dirname)
 
+app.use(helmet())
+app.use(
+  compression({
+    level: 6,
+    threshold: 10 * 100,
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) {
+        return false
+      }
+      return compression.filter(req, res)
+    }
+  })
+)
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
@@ -26,8 +43,20 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 // Api Routes
 app.use('/', Routes)
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
   res.send('working server')
+})
+
+//cron job schedular in node js
+cron.schedule('*/1 * * * *', async () => {
+  await db.sequelize.query(
+    'INSERT INTO cron_table (name) VALUES (?)',
+    {
+      type: QueryTypes.INSERT,
+      replacements: ['was']
+    }
+  )
+  console.log('running a task every minute')
 })
 
 // Error Middlewares
