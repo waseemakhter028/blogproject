@@ -13,7 +13,11 @@ const swaggerDocument = require('./swagger.json')
 
 global.appRoot = path.join(__dirname)
 
-app.use(helmet())
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false
+  })
+)
 app.use(
   compression({
     level: 6,
@@ -40,7 +44,7 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 // Api Routes
 app.use('/', Routes)
 
-app.get('/', async(req, res) => {
+app.get('/', async (req, res) => {
   res.send('working server')
 })
 
