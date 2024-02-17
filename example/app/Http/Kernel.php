@@ -39,7 +39,6 @@ class Kernel extends HttpKernel
         ],
 
         'AdminAuth' => [
-            
             \App\Http\Middleware\AdminAuth::class,
         ],
 
