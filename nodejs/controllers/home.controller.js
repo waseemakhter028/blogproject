@@ -154,7 +154,7 @@ const saveCodeImage = async (req, res) => {
   }
   try {
     const file = req.files.image
-    const directory = './public/upload'
+    const directory = './upload'
 
     const size = file.size
     const maxSize = 2
