@@ -108,7 +108,7 @@
                   <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $row->name }}</td>
-                    <td>{{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}</td>
+                    <td>{{ dtf($row->created_at) }}</td>
                   </tr>
                   @endforeach
                   

@@ -138,51 +138,6 @@
           }
         }
       }
-    },
-    "/savecodeimage/{id}": {
-      "post": {
-        "tags": ["Codes"],
-        "summary": "Save Code Image",
-        "description": "Save Code Image",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "type": "integer",
-            "required": true,
-            "example": 1,
-            "default": 1
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "image": {
-                    "type": "file",
-                    "required": true
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/definations/schemas/CodeImage/get"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "definations": {
@@ -193,16 +148,6 @@
             "message": {
               "type": "string",
               "example": "Data Retirved Successfully"
-            }
-          }
-        }
-      },
-      "CodeImage": {
-        "get": {
-          "properties": {
-            "message": {
-              "type": "string",
-              "example": "Code Image Saved Successfully"
             }
           }
         }

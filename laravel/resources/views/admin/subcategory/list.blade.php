@@ -81,7 +81,7 @@
                         {{-- <a href="#" onclick="return ConfirmDelete('{{ $id }}');">
                          <i class="fa fa-trash" aria-hidden="true"></i></a> --}}
                         </td>  
-                        <td>{{ \Carbon\Carbon::parse($row->created_at)->diffForHumans() }}</td>
+                        <td>{{ dtf($row->created_at) }}</td>
                       </tr>
                     @endforeach 
                     @endforeach

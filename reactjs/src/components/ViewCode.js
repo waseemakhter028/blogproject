@@ -34,7 +34,7 @@ const ViewCode = () => {
 
   useEffect(() => {
     getData()
-  }, [code, loader])
+  }, [loader])
 
   return (
     <React.Fragment>
@@ -52,7 +52,7 @@ const ViewCode = () => {
                 <div className="row">
                   <div className="col-lg-12 col-md-12  col-sm-12">
                     <img
-                      src={`data:image/jpeg;base64,${code.image}`}
+                      src={`data:image/jpeg;base64,${Buffer.from(code.image, 'base64').toString('utf-8')}`}
                       className="img-fluid imgviewcode"
                       alt="codeimage"
                     />
