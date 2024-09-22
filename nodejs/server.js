@@ -8,6 +8,7 @@ const compression = require('compression')
 const app = express()
 const Routes = require('./routes')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger.json')
 
@@ -37,8 +38,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json({ limit: '2mb' }))
 app.use(bodyParser.urlencoded({ extended: true }))
 
+app.use(fileUpload())
 app.use(cors())
 app.options('*', cors())
+
 // Swagger Docs
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 // Api Routes
