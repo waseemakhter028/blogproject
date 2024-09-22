@@ -108,7 +108,7 @@
                   <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $row->name }}</td>
-                    <td>{{ dtf($row->created_at) }}</td>
+                    <td>{{ $row->created_at }}</td>
                   </tr>
                   @endforeach
                   
