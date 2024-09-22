@@ -1,5 +1,4 @@
-@php
-
+<?php
 function getCategory()
    {
        $row = \DB::table('categories')->select('name','id')->orderBy('name','ASC')->get();
@@ -42,7 +41,7 @@ function getCategory()
     }
     return $date;
   }
-@endphp
+?>
 @include('admin.include.header')
 @include('admin.include.sidebar')
 @yield('content')

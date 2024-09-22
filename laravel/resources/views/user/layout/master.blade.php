@@ -1,4 +1,4 @@
-@php
+<?php
 function getCategory()
    {
        $row = \DB::table('categories')->select('name','id')->orderBy('name','ASC')->get();
@@ -24,7 +24,6 @@ function getCategory()
        return $data;
    }
 
-
    function dtf($date_string,$format='0'){
     switch ($format) {
       case '1':
@@ -41,7 +40,7 @@ function getCategory()
     }
     return $date;
   }
-@endphp
+?>
 @include('user.include.header')
 @yield('content')
 @include('user.include.footer')
