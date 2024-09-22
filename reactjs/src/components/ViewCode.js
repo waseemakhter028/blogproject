@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
+import { Buffer } from 'buffer'
 import parse from 'html-react-parser'
 import { Link, useParams, useHistory } from 'react-router-dom'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
