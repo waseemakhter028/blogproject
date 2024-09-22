@@ -31,22 +31,22 @@
     <link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">
     <!-- Required Fremwork -->
     <link rel="stylesheet" type="text/css"
-        href="{{ url('/admin_assets') }}/bower_components/bootstrap/css/bootstrap.min.css">
+        href="{{ asset('/admin_assets') }}/bower_components/bootstrap/css/bootstrap.min.css">
     <!-- waves.css -->
-    <link rel="stylesheet" href="{{ url('/admin_assets') }}/assets/pages/waves/css/waves.min.css" type="text/css"
+    <link rel="stylesheet" href="{{ asset('/admin_assets') }}/assets/pages/waves/css/waves.min.css" type="text/css"
         media="all"><!-- feather icon -->
-    <link rel="stylesheet" type="text/css" href="{{ url('/admin_assets') }}/assets/icon/feather/css/feather.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/admin_assets') }}/assets/icon/feather/css/feather.css">
     <!-- themify-icons line icon -->
     <link rel="stylesheet" type="text/css"
-        href="{{ url('/admin_assets') }}/assets/icon/themify-icons/themify-icons.css">
+        href="{{ asset('/admin_assets') }}/assets/icon/themify-icons/themify-icons.css">
     <!-- ico font -->
-    <link rel="stylesheet" type="text/css" href="{{ url('/admin_assets') }}/assets/icon/icofont/css/icofont.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/admin_assets') }}/assets/icon/icofont/css/icofont.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css"
-        href="{{ url('/admin_assets') }}/assets/icon/font-awesome/css/font-awesome.min.css">
+        href="{{ asset('/admin_assets') }}/assets/icon/font-awesome/css/font-awesome.min.css">
     <!-- Style.css -->
-    <link rel="stylesheet" type="text/css" href="{{ url('/admin_assets') }}/assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="{{ url('/admin_assets') }}/assets/css/pages.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/admin_assets') }}/assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/admin_assets') }}/assets/css/pages.css">
 
     <style type="text/css">
         .errors {
@@ -155,7 +155,7 @@
                     <form class="md-float-material form-material" action="#" method="post" id="loginForm"
                         onsubmit="return login()" autocomplete="off">
                         <div class="text-center">
-                            <img src="{{ url('/admin_assets') }}/assets/images/logo.png" alt="logo.png">
+                            <img src="{{ asset('/admin_assets') }}/assets/images/logo.png" alt="logo.png">
                         </div>
                         <div class="auth-box card">
                             <div class="card-block">
@@ -226,31 +226,31 @@
         <ul class="iew-download">
             <li>
                 <a href="http://www.google.com/chrome/">
-                    <img src="{{ url('/admin_assets') }}/assets/images/browser/chrome.png" alt="Chrome">
+                    <img src="{{ asset('/admin_assets') }}/assets/images/browser/chrome.png" alt="Chrome">
                     <div>Chrome</div>
                 </a>
             </li>
             <li>
                 <a href="https://www.mozilla.org/en-US/firefox/new/">
-                    <img src="{{ url('/admin_assets') }}/assets/images/browser/firefox.png" alt="Firefox">
+                    <img src="{{ asset('/admin_assets') }}/assets/images/browser/firefox.png" alt="Firefox">
                     <div>Firefox</div>
                 </a>
             </li>
             <li>
                 <a href="http://www.opera.com">
-                    <img src="{{ url('/admin_assets') }}/assets/images/browser/opera.png" alt="Opera">
+                    <img src="{{ asset('/admin_assets') }}/assets/images/browser/opera.png" alt="Opera">
                     <div>Opera</div>
                 </a>
             </li>
             <li>
                 <a href="https://www.apple.com/safari/">
-                    <img src="{{ url('/admin_assets') }}/assets/images/browser/safari.png" alt="Safari">
+                    <img src="{{ asset('/admin_assets') }}/assets/images/browser/safari.png" alt="Safari">
                     <div>Safari</div>
                 </a>
             </li>
             <li>
                 <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
-                    <img src="{{ url('/admin_assets') }}/assets/images/browser/ie.png" alt="">
+                    <img src="{{ asset('/admin_assets') }}/assets/images/browser/ie.png" alt="">
                     <div>IE (9 & above)</div>
                 </a>
             </li>
@@ -261,25 +261,25 @@
 <![endif]-->
     <!-- Warning Section Ends -->
     <!-- Required Jquery -->
-    <script type="text/javascript" src="{{ url('/admin_assets') }}/bower_components/jquery/js/jquery.min.js">
+    <script type="text/javascript" src="{{ asset('/admin_assets') }}/bower_components/jquery/js/jquery.min.js">
     </script>
-    <script type="text/javascript" src="{{ url('/admin_assets') }}/bower_components/jquery-ui/js/jquery-ui.min.js">
+    <script type="text/javascript" src="{{ asset('/admin_assets') }}/bower_components/jquery-ui/js/jquery-ui.min.js">
     </script>
-    <script type="text/javascript" src="{{ url('/admin_assets') }}/bower_components/popper.js/js/popper.min.js">
+    <script type="text/javascript" src="{{ asset('/admin_assets') }}/bower_components/popper.js/js/popper.min.js">
     </script>
-    <script type="text/javascript" src="{{ url('/admin_assets') }}/bower_components/bootstrap/js/bootstrap.min.js">
+    <script type="text/javascript" src="{{ asset('/admin_assets') }}/bower_components/bootstrap/js/bootstrap.min.js">
     </script>
     <!-- waves js -->
-    <script src="{{ url('/admin_assets') }}/assets/pages/waves/js/waves.min.js"></script>
+    <script src="{{ asset('/admin_assets') }}/assets/pages/waves/js/waves.min.js"></script>
     <!-- jquery slimscroll js -->
     <script type="text/javascript"
-        src="{{ url('/admin_assets') }}/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+        src="{{ asset('/admin_assets') }}/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
     <!-- modernizr js -->
-    <script type="text/javascript" src="{{ url('/admin_assets') }}/bower_components/modernizr/js/modernizr.js">
+    <script type="text/javascript" src="{{ asset('/admin_assets') }}/bower_components/modernizr/js/modernizr.js">
     </script>
-    <script type="text/javascript" src="{{ url('/admin_assets') }}/bower_components/modernizr/js/css-scrollbars.js">
+    <script type="text/javascript" src="{{ asset('/admin_assets') }}/bower_components/modernizr/js/css-scrollbars.js">
     </script>
-    <script type="text/javascript" src="{{ url('/admin_assets') }}/assets/js/common-pages.js"></script>
+    <script type="text/javascript" src="{{ asset('/admin_assets') }}/assets/js/common-pages.js"></script>
 
     <script type="text/javascript">
         function login()

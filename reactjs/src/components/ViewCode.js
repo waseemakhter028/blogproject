@@ -52,7 +52,7 @@ const ViewCode = () => {
                 <div className="row">
                   <div className="col-lg-12 col-md-12  col-sm-12">
                     <img
-                      src={`${process.env.REACT_APP_IMAGE_URL}${code.image}`}
+                      src={`data:image/jpeg;base64,${code.image}`}
                       className="img-fluid imgviewcode"
                       alt="codeimage"
                     />

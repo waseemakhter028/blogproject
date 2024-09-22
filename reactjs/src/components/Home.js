@@ -158,9 +158,9 @@ const Home = () => {
                         <div className="product__item">
                           <div
                             className="product__item__pic set-bg"
-                            data-setbg={`${process.env.REACT_IMAGE_URL}${row.image}`}
+                            data-setbg={`data:image/jpeg;base64,${row.image}`}
                             style={{
-                              backgroundImage: `url(${process.env.REACT_APP_IMAGE_URL}${row.image})`
+                              backgroundImage: `url(data:image/jpeg;base64,${row.image})`
                             }}></div>
                           <div className="product__item__text">
                             <h6>{row.title}</h6>

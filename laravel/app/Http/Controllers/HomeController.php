@@ -12,25 +12,9 @@ class HomeController extends Controller
 {
     protected function index()
     {
-        $allcat  = Category::where('status',1)->select('id')->get();
-        $category_ids  = [];
-
-        foreach($allcat  as $cat):
-            $subcat = SubCategory::where('category_id',$cat->id)->where('status',1)->first();
-            if(!empty($subcat))
-            {
-                $codecheck = Code::where('sub_category_id',$subcat->id)->where('status',1)->first();
-                if(!empty($codecheck))
-                {
-                    array_push($category_ids,$cat->id);
-                }
-
-            }
-        endforeach;
-
-        $category  = Category::whereIn('id',$category_ids)->where('status',1)->select('id','name')->get()->sortBy('name');
-
-
+        $category  = Category::whereHas('subCategories', function ($query) {
+            $query->where('status', 1);
+        })->where('status', 1)->select('id','name')->orderBy('name')->get();
 
         $codes = Code::where('status',1)->orderBy('id','DESC')->get();
 
@@ -46,16 +30,15 @@ class HomeController extends Controller
 
     protected function filtercodes(Request $request)
     {
-        $codes = null;
+       $codes = Code::where('status', 1);
+
        if($request->action=='filtercodes')
        {
-           $ids = implode(",",$request->subcat_ids);
-            $codes  = Code::whereRaw("sub_category_id IN ({$ids})")->orderBy('id','DESC')->get();
+            $ids = $request->subcat_ids ? $request->subcat_ids: [] ;
+            $codes = $codes->whereIn("sub_category_id", $ids);
        }
-       elseif ($request->action=='clearfilter')
-       {
-        $codes = Code::where('status',1)->orderBy('id','DESC')->get();
-       }
+       
+       $codes = $codes->orderBy('id','DESC')->get();
        return view('user.ajaxcode')->withcodes($codes);
     }//filtercodes emthod close
 

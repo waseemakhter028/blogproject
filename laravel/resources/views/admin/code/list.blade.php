@@ -81,7 +81,7 @@
                       <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                         <a href="{{ url('adminpanel/code/edit/'.$id) }}"> <img src="{{ url('/upload/'.$row->image) }}" height="60" width="80" /> </a>
+                         <a href="{{ url('adminpanel/code/edit/'.$id) }}"> <img src="data:image/jpeg;base64,{{ $row->image}}" height="60" width="80" /> </a>
                         </td>
                         <td>{{ $row->mainname }}</td>
                         <td>{{ $row->subname }}</td>

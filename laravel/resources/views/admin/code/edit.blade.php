@@ -58,7 +58,7 @@
 
                    <input type="hidden" name="id" value="{{ $row->id }}" />
 
-                   <img src="{{ url('/upload/'.$row->image) }}" alt="" class="" id="output" height="160" width="200">
+                   <img src="data:image/jpeg;base64,{{ $row->image}}" alt="" class="" id="output" height="160" width="200">
 										<div class="form-group row" id="div_image">
 											<label for="newstitle" class="col-sm-2 col-form-label">Image</label>
 											<div class="col-sm-8">

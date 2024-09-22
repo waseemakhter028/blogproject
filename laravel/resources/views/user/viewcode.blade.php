@@ -8,7 +8,7 @@
             <div class="container">
                 <div class="row">
                 <div class="col-lg-12 col-md-12  col-sm-12">
-                <img src="{{ url('/upload/'.$row->image) }}"  style="width:50%;" class="img-fluid"  />
+                <img src="data:image/jpeg;base64,{{ $row->image}}"  style="width:50%;" class="img-fluid"  />
                 <br/>
                 
                 </div>
