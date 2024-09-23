@@ -31,7 +31,7 @@ class HomeApiController extends Controller
     protected function getSubCat($id=null)
     {
 
-      $row =  getFrontSubCategory($id);
+      $row =  \App\Services\HelperService::getFrontSubCategory($id);
       return response()->json([
           'status'     => 200,
            'data'      => $row

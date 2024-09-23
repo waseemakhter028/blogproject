@@ -16,7 +16,7 @@ class HomeController extends Controller
             $query->where('status', 1);
         })->where('status', 1)->select('id','name')->orderBy('name')->get();
 
-        $codes = Code::where('status',1)->orderBy('id','DESC')->get();
+        $codes = Code::where('status',1)->orderBy('id','DESC')->paginate(6);
 
         return view('user.code')->withcategory($category)->withcodes($codes);
     }//index method close
@@ -40,6 +40,6 @@ class HomeController extends Controller
        
        $codes = $codes->orderBy('id','DESC')->get();
        return view('user.ajaxcode')->withcodes($codes);
-    }//filtercodes emthod close
+    }//filtercodes method close
 
 }#home controller method close

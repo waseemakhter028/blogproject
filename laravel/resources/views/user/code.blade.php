@@ -89,7 +89,7 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__categories">
                                                 <ul class="nice-scroll">
-                                                @foreach(getFrontSubCategory($cat->id) as $subcat)    
+                                                @foreach(\App\Services\HelperService::getFrontSubCategory($cat->id) as $subcat)    
                                                 <li>
                                                     <label class="form-check-label " style="cursor: pointer;">
                                                         <input type="checkbox" class="" name="subcategory[]"
@@ -112,7 +112,7 @@
                 </div>
                 <div class="col-lg-9" id="codediv">
                    
-                    <div class="row" id="uniqueId">
+                    <div class="row" id="uniqueId-hh">
 
 
                     @forelse($codes as $row)
@@ -130,8 +130,8 @@
                         @empty
                          <span class="text-danger text-center">No Record Found</span>
                         @endforelse
-                        
                         </div>
+                        {!! $codes->withQueryString()->links('pagination::bootstrap-5') !!}
                     </div>
 
                    

@@ -49,7 +49,7 @@
               </div>
               <div class="card-block">
                 <div class="table-responsive dt-responsive">
-                  <table id="dom-jqry" class="table table-striped table-bordered nowrap">
+                  <table id="dom-jqry-hh" class="table table-striped table-bordered nowrap">
                     <thead>
                       <tr>
                         <th>S.No</th>
@@ -60,9 +60,8 @@
                         <th>Created On</th>
                       </tr>
                     </thead>
-                    <tbody>
-                    @foreach($data as $main) 
-                    @foreach($main->subcategory as $row)
+                    <tbody> 
+                    @foreach($data as $row)
                     @php
                       $id=$row->id;
                       $btntext=($row->status=='1') ? 'Active' : 'Inactive';
@@ -72,7 +71,7 @@
                  
                       <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $main->name }}</td>
+                        <td>{{ $row->category->name }}</td>
                         <td>{{ $row->name }}</td>
                         <td id="assetsid{{$id}}">
                           <button type="button" class="btn waves-effect waves-light hor-grd {{ $btnclass }} btn-flat" onclick="return changestatus('sub_categories','id','{{ $id }}','status','{{ $btnstatus }}');">{{ $btntext }}</button></td>
@@ -81,14 +80,13 @@
                         {{-- <a href="#" onclick="return ConfirmDelete('{{ $id }}');">
                          <i class="fa fa-trash" aria-hidden="true"></i></a> --}}
                         </td>  
-                        <td>{{ dtf($row->created_at) }}</td>
+                        <td>{{ \App\Services\HelperService::dtf($row->created_at) }}</td>
                       </tr>
                     @endforeach 
-                    @endforeach
-                      
                     </tbody>
             
                   </table>
+                  {!! $data->withQueryString()->links('pagination::bootstrap-5') !!}
                 </div>
               </div>
             </div>

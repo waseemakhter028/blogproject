@@ -55,7 +55,7 @@
                  @endif
 
                 <div class="table-responsive dt-responsive">
-                  <table id="dom-jqry" class="table table-striped table-bordered nowrap">
+                  <table id="dom-jqry-hh" class="table table-striped table-bordered nowrap">
                     <thead>
                       <tr>
                         <th>S.No</th>
@@ -96,13 +96,14 @@
                         <a href="{{  url('adminpanel/code/delete/'.$id)  }}" onclick="return ConfirmDelete('{{ $id }}');">
                          <i class="fa fa-trash" aria-hidden="true"></i></a>
                         </td>  
-                        <td>{{ dtf($row->created_at) }}</td>
+                        <td>{{ \App\Services\HelperService::dtf($row->created_at) }}</td>
                       </tr>
                     @endforeach
                       
                     </tbody>
             
                   </table>
+                  {!! $data->withQueryString()->links('pagination::bootstrap-5') !!}
                 </div>
               </div>
             </div>

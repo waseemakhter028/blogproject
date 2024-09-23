@@ -81,7 +81,7 @@
                                                     <select name="category" class="form-control"
                                                         onchange="return getSubCategory(this.value)">
                                                         <option value="">Select Catgory</option>
-                                                        @foreach (getCategory() as $cat)
+                                                        @foreach (\App\Services\HelperService::getCategory() as $cat)
                                                             <option value="{{ $cat->id }}"
                                                                 {{ old('category') == $cat->id ? 'selected=""' : null }}>
                                                                 {{ $cat->name }}</option>

@@ -11,8 +11,8 @@ class CategoryController extends Controller
 {
     protected function category()
     {
-        $data = Category::all()->sortByDesc('id');
-        return view('admin.category.list')->withdata($data);
+        $data = Category::query()->latest('id')->paginate(5);
+        return view('admin.category.list', compact('data'));
     }//category method close
 
     protected function categoryAdd(Request $request)
@@ -81,8 +81,8 @@ class CategoryController extends Controller
 
     protected function subcategory()
     {
-        $data =Category::with('subcategory')->get();
-        return view('admin.subcategory.list')->withdata($data);
+        $data = SubCategory::query()->with('category')->paginate(10);
+        return view('admin.subcategory.list', compact('data'));
     }//subcategory method close
 
     protected function subcategoryAdd(Request $request)

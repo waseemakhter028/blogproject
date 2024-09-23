@@ -78,7 +78,7 @@
                       <div class="col-sm-8">
                         <select name="category" class="form-control" onchange="return getSubCategory(this.value)">
                           <option value="">Select Catgory</option>
-                          @foreach(getCategory() as $cat)
+                          @foreach(\App\Services\HelperService::getCategory() as $cat)
                           <option value="{{ $cat->id }}" {{ ($mainid==$cat->id) ? 'selected=""' :null }}>{{ $cat->name }}</option>
                           @endforeach
                         </select>
@@ -96,7 +96,7 @@
                       <div class="col-sm-8">
                         <select name="sub_category" id="subcategory" class="form-control">
                           <option value="">Select Sub Catgory</option>
-                          @foreach(getSubCategory($mainid) as $scat)
+                          @foreach(\App\Services\HelperService::getSubCategory($mainid) as $scat)
                           <option value="{{ $scat->id }}" {{ ($row->sub_category_id==$scat->id) ? 'selected=""' :null }}>{{ $scat->name }}</option>
                           @endforeach
                         </select>

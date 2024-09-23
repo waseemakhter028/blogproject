@@ -13,8 +13,8 @@ class CodeController extends Controller
     {
         $data = Code::select('codes.*', 't1.name as subname', 't2.name as mainname')
             ->join('sub_categories as t1', 't1.id', '=', 'codes.sub_category_id')
-            ->join('categories as t2', 't2.id', '=', 't1.category_id')->orderBy('codes.id', 'DESC')->get();
-        return view('admin.code.list')->withdata($data);
+            ->join('categories as t2', 't2.id', '=', 't1.category_id')->orderBy('codes.id', 'DESC')->paginate(10);
+        return view('admin.code.list',  compact('data'));
     } //category method close
 
     protected function codeAdd(Request $request)

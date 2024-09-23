@@ -61,7 +61,7 @@
                     <div class="col-sm-8">
                       <select name="category" class="form-control">
                         <option value="">Select Catgory</option>
-                        @foreach(getCategory() as $cat)
+                        @foreach(\App\Services\HelperService::getCategory() as $cat)
                         <option value="{{ $cat->id }}" {{ (old('category')==$cat->id) ? 'selected=""' :null }} {{ ($row->category_id==$cat->id && old("category")=="") ? 'selected=""' :null }}>{{ $cat->name }}</option>
                         @endforeach
                       </select>
