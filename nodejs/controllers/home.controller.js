@@ -101,6 +101,13 @@ const viewCode = async (req, res) => {
       }
     })
 
+    if(!data) {
+      res.status(404).json({
+        status: 404,
+        data: data
+      })
+    }
+
     res.status(200).json({
       status: 200,
       data: data
