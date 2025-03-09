@@ -61,6 +61,11 @@ const Home = () => {
 
   useEffect(() => {
     getData();
+
+    return () => {
+      resetCategories()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {}, [contentLoader]);
