@@ -1,27 +1,79 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root{
+  --black-color: rgb(17, 17, 17);
+  --red-color: #ff6666;
+  --white-color: #ffffff;
 }
 
-.nice-scroll{
-  overflow-y: hidden; 
-  outline: none;
+.accordion-button {
+  color: var(--black-color);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.imgviewcode{
-  width:50%;
-}
-
-.lblchk, .chk{
+.form-check-label {
   cursor: pointer;
 }
 
+.form-check-input {
+  border: 1.5px solid var(--black-color);
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: var(--black-color);
+}
+
+.btn-black {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  border-color: var(--black-color);
+}
+
+.btn-black:hover {
+  background-color: var(--red-color) !important;
+  color: var(--white-color);
+  border-color: var(--red-color);
+}
+
+.h5 {
+  font-size: 14px;
+  font-weight: 700;
+  
+}
+
+.pagination { 
+  margin-bottom: 50px;
+}
+
+.page-link {
+  color: var(--black-color);
+}
+
+.page-item .active {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
+.navbar {
+  background-color: var(--black-color);
+  width: 100%;
+}
+
+.home-container {
+  margin-top: 80px;
+}
+
+.footer {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  position: sticky;
+  width: 100%;
+}
