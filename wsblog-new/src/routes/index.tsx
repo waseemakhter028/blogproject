@@ -4,29 +4,47 @@ import HomePage from "../pages/Home";
 import ViewCodePage from "../pages/ViewCode";
 import Error404 from "../components/Error404";
 import ErrorPage from "../components/ErrorPage";
-
+import ScrollToTop from "../components/ScrollToTop";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element:   <ErrorBoundary
-    FallbackComponent={ErrorPage}
-    onReset={() => window.location.reload()}
-  ><HomePage /> </ErrorBoundary>,
+    element: (
+      <ErrorBoundary
+        FallbackComponent={ErrorPage}
+        onReset={() => window.location.reload()}
+      >
+        <ScrollToTop />
+        <HomePage />{" "}
+      </ErrorBoundary>
+    ),
   },
   {
     path: "/viewcode/:id",
-    element:  <ErrorBoundary
-    FallbackComponent={ErrorPage}
-    onReset={() => window.location.reload()}
-  ><ViewCodePage /> </ErrorBoundary>,
+    element: (
+      <ErrorBoundary
+        FallbackComponent={ErrorPage}
+        onReset={() => window.location.reload()}
+      >
+        {" "}
+        <ScrollToTop />
+        <ViewCodePage />{" "}
+      </ErrorBoundary>
+    ),
   },
-  { path: "*", 
-    element: <ErrorBoundary
-    FallbackComponent={ErrorPage}
-    onReset={() => window.location.reload()}
-  ><Error404 /> </ErrorBoundary> 
-}, 
+  {
+    path: "*",
+    element: (
+      <ErrorBoundary
+        FallbackComponent={ErrorPage}
+        onReset={() => window.location.reload()}
+      >
+        {" "}
+        <ScrollToTop />
+        <Error404 />{" "}
+      </ErrorBoundary>
+    ),
+  },
 ]);
 
 export default router;
