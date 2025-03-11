@@ -13,7 +13,8 @@ module.exports = {
     port: DB_PORT,
     dialect: 'mysql',
     dialectModule: mysql2,
-    pool: { max: max, min: min, idle: idle }
+    pool: { max: max, min: min, idle: idle },
+    logging: false,  // Disable logging
   },
   test: {
     username: DB_USER,
@@ -23,7 +24,8 @@ module.exports = {
     port: DB_PORT,
     dialect: 'mysql',
     dialectModule: mysql2,
-    pool: { max: max, min: min, idle: idle }
+    pool: { max: max, min: min, idle: idle },
+    logging: false,  // Disable logging
   },
   production: {
     username: DB_USER,
@@ -33,6 +35,7 @@ module.exports = {
     port: DB_PORT,
     dialect: 'mysql',
     dialectModule: mysql2,
-    pool: { max: max, min: min, idle: idle }
+    pool: { max: max, min: min, idle: idle },
+    logging: false,  // Disable logging
   }
 }
