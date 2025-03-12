@@ -76,7 +76,10 @@ function Sidebar(props: Readonly<SideBarProps>) {
         {props.categories.length > 0 &&
           props.categories.map((category: Category) => (
             <Accordion.Item key={category.id} eventKey={category.id.toString()}>
-              <Accordion.Header>{category.name}</Accordion.Header>
+              <Accordion.Header onClick={(e: React.MouseEvent<HTMLInputElement>)=>{
+              e.stopPropagation()
+              resetCategories()
+            }}>{category.name}</Accordion.Header>
               <Accordion.Body>
                 {category.SubCategories.map((subCat: SubCategory) => (
                   <Form.Check
