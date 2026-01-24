@@ -7,7 +7,8 @@ const { Sequelize, DataTypes } = require('sequelize')
 const basename = path.basename(__filename)
 const db = {}
 const sequelize = new Sequelize(config.database, config.username, config.password, config, {
-  logging: console.log
+  // logging: console.log
+  logging: false, // Disable logging
 })
 
 sequelize

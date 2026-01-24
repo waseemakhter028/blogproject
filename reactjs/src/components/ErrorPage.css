@@ -1,0 +1,48 @@
+/* Black-themed background gradient */
+.error-page {
+    background: linear-gradient(135deg, #000000, #333333);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Glassmorphism effect */
+  .error-card {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    max-width: 450px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Animated error icon */
+  .error-icon {
+    color: #ff4c4c;
+    font-size: 50px;
+    animation: shake 0.5s infinite alternate;
+  }
+  
+  /* Shake animation */
+  @keyframes shake {
+    0% { transform: translateX(-5px); }
+    100% { transform: translateX(5px); }
+  }
+  
+  /* Try Again Button */
+  .error-card button {
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: #ff4c4c;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
+  .error-card button:hover {
+    transform: scale(1.05);
+    background: #ff6666;
+  }
+  
