@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import prisma from "@/lib/db";
+import type { RowDataPacket, ResultSetHeader } from "mysql2";
+import db from "@/lib/db";
 
 const categorySchema = z.object({
   name: z
@@ -25,9 +26,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const category = await prisma.category.findUnique({
-    where: { id: Number(id) },
-  });
+  const [[category]] = await db.execute<RowDataPacket[]>(
+    "SELECT id, name, status, created_at AS createdAt, updated_at AS updatedAt FROM categories WHERE id = ?",
+    [Number(id)],
+  );
   if (!category)
     return NextResponse.json(
       { status: "404", msg: "Not found" },
@@ -42,6 +44,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
+  const numId = Number(id);
   const body = await req.json();
   const parsed = categorySchema.safeParse(body);
 
@@ -54,9 +57,10 @@ export async function PUT(
 
   const { name, status } = parsed.data;
 
-  const exists = await prisma.category.findFirst({
-    where: { name, NOT: { id: Number(id) } },
-  });
+  const [[exists]] = await db.execute<RowDataPacket[]>(
+    "SELECT id FROM categories WHERE name = ? AND id != ? LIMIT 1",
+    [name, numId],
+  );
   if (exists) {
     return NextResponse.json(
       { status: "422", errors: { name: ["Name already exists"] } },
@@ -64,10 +68,14 @@ export async function PUT(
     );
   }
 
-  const category = await prisma.category.update({
-    where: { id: Number(id) },
-    data: { name, status },
-  });
+  await db.execute<ResultSetHeader>(
+    "UPDATE categories SET name = ?, status = ?, updated_at = NOW() WHERE id = ?",
+    [name, status, numId],
+  );
+  const [[category]] = await db.execute<RowDataPacket[]>(
+    "SELECT id, name, status, created_at AS createdAt, updated_at AS updatedAt FROM categories WHERE id = ?",
+    [numId],
+  );
   return NextResponse.json({ status: "200", data: category });
 }
 
@@ -78,16 +86,24 @@ export async function PATCH(
 ) {
   const { id } = await params;
   const numId = Number(id);
-  const category = await prisma.category.findUnique({ where: { id: numId } });
+  const [[category]] = await db.execute<RowDataPacket[]>(
+    "SELECT id, status FROM categories WHERE id = ?",
+    [numId],
+  );
   if (!category)
     return NextResponse.json(
       { status: "404", msg: "Not found" },
       { status: 404 },
     );
-  const updated = await prisma.category.update({
-    where: { id: numId },
-    data: { status: category.status === 1 ? 0 : 1 },
-  });
+  const newStatus = category.status === 1 ? 0 : 1;
+  await db.execute<ResultSetHeader>(
+    "UPDATE categories SET status = ?, updated_at = NOW() WHERE id = ?",
+    [newStatus, numId],
+  );
+  const [[updated]] = await db.execute<RowDataPacket[]>(
+    "SELECT id, name, status, created_at AS createdAt, updated_at AS updatedAt FROM categories WHERE id = ?",
+    [numId],
+  );
   return NextResponse.json({ status: "200", data: updated });
 }
 
@@ -99,20 +115,23 @@ export async function DELETE(
   const { id } = await params;
   const numId = Number(id);
 
-  const subCatCount = await prisma.subCategory.count({
-    where: { categoryId: numId },
-  });
-
-  if (subCatCount > 0) {
+  const [[{ subCatCount }]] = await db.execute<RowDataPacket[]>(
+    "SELECT COUNT(*) AS subCatCount FROM sub_categories WHERE category_id = ?",
+    [numId],
+  );
+  const count = Number(subCatCount);
+  if (count > 0) {
     return NextResponse.json(
       {
         status: "409",
-        msg: `Please delete the ${subCatCount} sub categor${subCatCount === 1 ? "y" : "ies"} associated with this category before deleting it.`,
+        msg: `Please delete the ${count} sub categor${count === 1 ? "y" : "ies"} associated with this category before deleting it.`,
       },
       { status: 409 },
     );
   }
 
-  await prisma.category.delete({ where: { id: numId } });
+  await db.execute<ResultSetHeader>("DELETE FROM categories WHERE id = ?", [
+    numId,
+  ]);
   return NextResponse.json({ status: "200", msg: "Category deleted." });
 }

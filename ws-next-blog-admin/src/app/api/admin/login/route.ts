@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash } from "node:crypto";
-import prisma from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+import db from "@/lib/db";
 import { signAdminToken, setAdminCookie } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
@@ -12,10 +13,10 @@ export async function POST(req: NextRequest) {
 
   const passwordMd5 = createHash("md5").update(password).digest("hex");
 
-  const admin = await prisma.superadmin.findFirst({
-    where: { email, password: passwordMd5 },
-    select: { id: true },
-  });
+  const [[admin]] = await db.execute<RowDataPacket[]>(
+    "SELECT id FROM super_admins WHERE email = ? AND password = ? LIMIT 1",
+    [email, passwordMd5],
+  );
 
   if (!admin) {
     return NextResponse.json({

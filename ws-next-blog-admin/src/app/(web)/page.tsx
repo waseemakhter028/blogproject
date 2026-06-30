@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import WebLoader from "@/components/web/WebLoader";
 
-/* ─── Types ─────────────────────────────────────────── */
+/* ─── Types ──────────────────────────────────────────────────────────── */
 interface SubCategory {
   id: number;
   name: string;
@@ -27,13 +27,13 @@ interface Pages {
   total: number;
 }
 
-/* ─── Helpers ─────────────────────────────────────────── */
+/* ─── Helpers ──────────────────────────────────────────────────────────── */
 const imgSrc = (img: string | null) => {
   if (!img) return null;
   return img.startsWith("data:") ? img : `data:image/jpeg;base64,${img}`;
 };
 
-/* ─── Card ─────────────────────────────────────────── */
+/* ─── Card ──────────────────────────────────────────────────────────── */
 function CodeCard({ code }: Readonly<{ code: CodeItem }>) {
   const src = imgSrc(code.image);
   return (
@@ -110,7 +110,7 @@ function CodeCard({ code }: Readonly<{ code: CodeItem }>) {
   );
 }
 
-/* ─── Sidebar ─────────────────────────────────────────── */
+/* ─── Sidebar ──────────────────────────────────────────────────────────── */
 function Sidebar({
   categories,
   selectedSubIds,
@@ -136,7 +136,6 @@ function Sidebar({
         boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
       }}
     >
-      {/* Sidebar header */}
       <div
         style={{
           background: "linear-gradient(135deg, #0f3460 0%, #16213e 100%)",
@@ -177,7 +176,6 @@ function Sidebar({
               fontSize: 13,
               letterSpacing: 0.5,
               boxShadow: "0 2px 8px rgba(233,69,96,0.35)",
-              transition: "opacity .2s",
             }}
           >
             ✕ Clear Filter
@@ -207,7 +205,6 @@ function Sidebar({
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  transition: "background .2s, color .2s",
                 }}
               >
                 <span>{cat.name}</span>
@@ -258,7 +255,6 @@ function Sidebar({
                           color: checked ? "#e94560" : "#94a3b8",
                           fontWeight: checked ? 600 : 400,
                           borderBottom: "1px solid #1a2744",
-                          transition: "color .15s",
                         }}
                       >
                         <input
@@ -286,13 +282,13 @@ function Sidebar({
   );
 }
 
-/* ─── Page ─────────────────────────────────────────── */
+/* ─── Page ──────────────────────────────────────────────────────────── */
 export default function HomePage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [codes, setCodes] = useState<CodeItem[]>([]);
   const [pages, setPages] = useState<Pages>({
     current_page: 1,
-    per_page: 8,
+    per_page: 9,
     total: 0,
   });
   const [loading, setLoading] = useState(true);
@@ -310,7 +306,7 @@ export default function HomePage() {
       const data = await res.json();
       setCategories(data.categories ?? []);
       setCodes(data.codes?.data ?? []);
-      setPages(data.codes ?? { current_page: 1, per_page: 8, total: 0 });
+      setPages(data.codes ?? { current_page: 1, per_page: 9, total: 0 });
     } finally {
       setLoading(false);
       setContentLoading(false);
@@ -322,7 +318,6 @@ export default function HomePage() {
   }, [getData]);
 
   const handleToggle = async (subId: number, catId: number) => {
-    // If switching to a different category, clear previous selections
     let newSubIds: number[];
     if (activeCatId === catId) {
       newSubIds = selectedSubIds.includes(subId)
@@ -405,7 +400,6 @@ export default function HomePage() {
               marginTop: 40,
             }}
           >
-            {/* Prev */}
             <button
               disabled={pages.current_page <= 1}
               onClick={() => getData(pages.current_page - 1)}
@@ -422,7 +416,6 @@ export default function HomePage() {
               ‹ Prev
             </button>
 
-            {/* Smart page numbers */}
             {(() => {
               const cur = pages.current_page;
               const total = totalPages;
@@ -474,7 +467,6 @@ export default function HomePage() {
               );
             })()}
 
-            {/* Next */}
             <button
               disabled={pages.current_page >= totalPages}
               onClick={() => getData(pages.current_page + 1)}
@@ -493,7 +485,6 @@ export default function HomePage() {
               Next ›
             </button>
 
-            {/* Page info */}
             <span
               style={{
                 color: "#4d6a8a",
@@ -518,7 +509,6 @@ export default function HomePage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="web-layout-grid">
-        {/* Sidebar */}
         <Sidebar
           categories={categories}
           selectedSubIds={selectedSubIds}
@@ -526,8 +516,6 @@ export default function HomePage() {
           onClear={handleClear}
           loadingFilter={loadingFilter}
         />
-
-        {/* Main */}
         <div>{renderMainContent()}</div>
       </div>
 

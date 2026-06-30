@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import prisma from "@/lib/db";
+import type { RowDataPacket, ResultSetHeader } from "mysql2";
+import db from "@/lib/db";
 
 const subCategorySchema = z.object({
   categoryId: z.coerce
@@ -29,16 +30,32 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const subCategory = await prisma.subCategory.findUnique({
-    where: { id: Number(id) },
-    include: { category: { select: { id: true, name: true } } },
-  });
-  if (!subCategory)
+  const [[row]] = await db.execute<RowDataPacket[]>(
+    `SELECT sc.id, sc.name, sc.category_id AS categoryId, sc.status,
+            sc.created_at AS createdAt, sc.updated_at AS updatedAt,
+            c.id AS cat_id, c.name AS cat_name
+     FROM sub_categories sc
+     LEFT JOIN categories c ON c.id = sc.category_id
+     WHERE sc.id = ?`,
+    [Number(id)],
+  );
+  if (!row)
     return NextResponse.json(
       { status: "404", msg: "Not found" },
       { status: 404 },
     );
-  return NextResponse.json({ status: "200", data: subCategory });
+  return NextResponse.json({
+    status: "200",
+    data: {
+      id: row.id,
+      name: row.name,
+      categoryId: row.categoryId,
+      status: row.status,
+      createdAt: row.createdAt,
+      updatedAt: row.updatedAt,
+      category: { id: row.cat_id, name: row.cat_name },
+    },
+  });
 }
 
 // PUT /api/admin/subcategories/[id]
@@ -64,9 +81,10 @@ export async function PUT(
   const { categoryId, name, status } = parsed.data;
 
   // Check category exists
-  const category = await prisma.category.findUnique({
-    where: { id: categoryId },
-  });
+  const [[category]] = await db.execute<RowDataPacket[]>(
+    "SELECT id FROM categories WHERE id = ? LIMIT 1",
+    [categoryId],
+  );
   if (!category) {
     return NextResponse.json(
       {
@@ -78,9 +96,10 @@ export async function PUT(
   }
 
   // Check name uniqueness excluding self
-  const exists = await prisma.subCategory.findFirst({
-    where: { name, NOT: { id: numId } },
-  });
+  const [[exists]] = await db.execute<RowDataPacket[]>(
+    "SELECT id FROM sub_categories WHERE name = ? AND id != ? LIMIT 1",
+    [name, numId],
+  );
   if (exists) {
     return NextResponse.json(
       { status: "422", errors: { name: ["Name already exists"] } },
@@ -88,10 +107,14 @@ export async function PUT(
     );
   }
 
-  const subCategory = await prisma.subCategory.update({
-    where: { id: numId },
-    data: { categoryId, name, status },
-  });
+  await db.execute<ResultSetHeader>(
+    "UPDATE sub_categories SET name = ?, category_id = ?, status = ?, updated_at = NOW() WHERE id = ?",
+    [name, categoryId, status, numId],
+  );
+  const [[subCategory]] = await db.execute<RowDataPacket[]>(
+    "SELECT id, name, category_id AS categoryId, status, created_at AS createdAt, updated_at AS updatedAt FROM sub_categories WHERE id = ?",
+    [numId],
+  );
   return NextResponse.json({ status: "200", data: subCategory });
 }
 
@@ -102,18 +125,24 @@ export async function PATCH(
 ) {
   const { id } = await params;
   const numId = Number(id);
-  const subCategory = await prisma.subCategory.findUnique({
-    where: { id: numId },
-  });
+  const [[subCategory]] = await db.execute<RowDataPacket[]>(
+    "SELECT id, status FROM sub_categories WHERE id = ?",
+    [numId],
+  );
   if (!subCategory)
     return NextResponse.json(
       { status: "404", msg: "Not found" },
       { status: 404 },
     );
-  const updated = await prisma.subCategory.update({
-    where: { id: numId },
-    data: { status: subCategory.status === 1 ? 0 : 1 },
-  });
+  const newStatus = subCategory.status === 1 ? 0 : 1;
+  await db.execute<ResultSetHeader>(
+    "UPDATE sub_categories SET status = ?, updated_at = NOW() WHERE id = ?",
+    [newStatus, numId],
+  );
+  const [[updated]] = await db.execute<RowDataPacket[]>(
+    "SELECT id, name, category_id AS categoryId, status, created_at AS createdAt, updated_at AS updatedAt FROM sub_categories WHERE id = ?",
+    [numId],
+  );
   return NextResponse.json({ status: "200", data: updated });
 }
 
@@ -125,20 +154,23 @@ export async function DELETE(
   const { id } = await params;
   const numId = Number(id);
 
-  const codeCount = await prisma.code.count({
-    where: { subCategoryId: numId },
-  });
-
-  if (codeCount > 0) {
+  const [[{ codeCount }]] = await db.execute<RowDataPacket[]>(
+    "SELECT COUNT(*) AS codeCount FROM codes WHERE sub_category_id = ?",
+    [numId],
+  );
+  const count = Number(codeCount);
+  if (count > 0) {
     return NextResponse.json(
       {
         status: "409",
-        msg: `Please delete the ${codeCount} code${codeCount === 1 ? "" : "s"} associated with this sub category before deleting it.`,
+        msg: `Please delete the ${count} code${count === 1 ? "" : "s"} associated with this sub category before deleting it.`,
       },
       { status: 409 },
     );
   }
 
-  await prisma.subCategory.delete({ where: { id: numId } });
+  await db.execute<ResultSetHeader>("DELETE FROM sub_categories WHERE id = ?", [
+    numId,
+  ]);
   return NextResponse.json({ status: "200", msg: "Sub category deleted." });
 }

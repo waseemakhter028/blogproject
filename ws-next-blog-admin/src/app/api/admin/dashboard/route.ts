@@ -1,26 +1,25 @@
 import { NextResponse } from "next/server";
-import prisma from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+import db from "@/lib/db";
 
 export async function GET() {
-  const [cat, subcat, code, latest_cat] = await Promise.all([
-    prisma.category.count(),
-    prisma.subCategory.count(),
-    prisma.code.count(),
-    prisma.category.findMany({
-      orderBy: { id: "desc" },
-      take: 8,
-      select: { id: true, name: true, createdAt: true },
-    }),
+  const [[catRows], [subcatRows], [codeRows], [latest]] = await Promise.all([
+    db.execute<RowDataPacket[]>("SELECT COUNT(*) AS total FROM categories"),
+    db.execute<RowDataPacket[]>("SELECT COUNT(*) AS total FROM sub_categories"),
+    db.execute<RowDataPacket[]>("SELECT COUNT(*) AS total FROM codes"),
+    db.execute<RowDataPacket[]>(
+      "SELECT id, name, created_at FROM categories ORDER BY id DESC LIMIT 8",
+    ),
   ]);
 
   return NextResponse.json({
-    cat,
-    subcat,
-    code,
-    latest_cat: latest_cat.map((c) => ({
+    cat: Number(catRows[0].total),
+    subcat: Number(subcatRows[0].total),
+    code: Number(codeRows[0].total),
+    latest_cat: latest.map((c) => ({
       id: c.id,
       name: c.name,
-      created_at: c.createdAt,
+      created_at: c.created_at,
     })),
   });
 }

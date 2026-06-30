@@ -3,20 +3,31 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism";
+import nightOwl from "react-syntax-highlighter/dist/cjs/styles/prism/night-owl";
 import WebLoader from "@/components/web/WebLoader";
 
 interface CodeDetail {
   id: number;
   title: string;
-  image: string | null;
   description: string;
+  image: string | null;
   language: string;
+  status: number;
   subCategory: {
     id: number;
     name: string;
-    category: { id: number; name: string };
+    category: {
+      id: number;
+      name: string;
+    };
   };
+}
+
+function decodeHtml(html: string): string {
+  if (typeof document === "undefined") return html;
+  const ta = document.createElement("textarea");
+  ta.innerHTML = html;
+  return ta.value;
 }
 
 const imgSrc = (img: string | null) => {
@@ -24,56 +35,67 @@ const imgSrc = (img: string | null) => {
   return img.startsWith("data:") ? img : `data:image/jpeg;base64,${img}`;
 };
 
-const decodeHtml = (str: string): string => {
-  const textarea = document.createElement("textarea");
-  textarea.innerHTML = str;
-  return textarea.value;
-};
-
 export default function ViewCodePage() {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams();
   const router = useRouter();
+  const id = params?.id as string;
+
   const [code, setCode] = useState<CodeDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (!id || Number.isNaN(Number(id))) {
-      router.replace("/");
-      return;
-    }
+    if (!id) return;
     fetch(`/api/home/viewcode/${id}`)
       .then((r) => r.json())
-      .then((data) => {
-        if (data.status === "404") {
-          router.replace("/");
-          return;
-        }
-        setCode(data.data);
+      .then((res) => {
+        if (res.status === "200" && res.data) setCode(res.data);
+        else setError("Code not found.");
       })
+      .catch(() => setError("Failed to load."))
       .finally(() => setLoading(false));
-  }, [id, router]);
+  }, [id]);
+
+  if (loading) return <WebLoader minHeight="60vh" />;
+
+  if (error || !code) {
+    return (
+      <div style={{ textAlign: "center", paddingTop: 80, color: "#888" }}>
+        <p style={{ fontSize: 18, marginBottom: 20 }}>
+          {error ?? "Code not found."}
+        </p>
+        <button
+          onClick={() => router.back()}
+          style={{
+            background: "#e94560",
+            color: "#fff",
+            border: "none",
+            padding: "8px 20px",
+            borderRadius: 6,
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          ← Back
+        </button>
+      </div>
+    );
+  }
+
+  const description = decodeHtml(code.description);
+  const title = decodeHtml(code.title);
+  const src = imgSrc(code.image);
 
   const handleCopy = async () => {
-    if (!code) return;
     try {
-      await navigator.clipboard.writeText(decodeHtml(code.description));
+      await navigator.clipboard.writeText(description);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
       /* clipboard blocked */
     }
   };
-
-  if (loading) {
-    return <WebLoader minHeight="60vh" />;
-  }
-
-  if (!code) return null;
-
-  const src = imgSrc(code.image);
-  const description = decodeHtml(code.description);
-  const title = decodeHtml(code.title);
 
   return (
     <div
@@ -101,14 +123,16 @@ export default function ViewCodePage() {
         ← Back
       </button>
 
-      {/* Hero image */}
+      {/* Image — centred */}
       {src && (
-        <div style={{ textAlign: "center", marginBottom: 28 }}>
+        <div style={{ marginBottom: 28, textAlign: "center" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={src}
             alt={title}
             style={{
+              display: "block",
+              margin: "0 auto",
               maxWidth: "100%",
               maxHeight: 420,
               borderRadius: 10,
@@ -127,7 +151,7 @@ export default function ViewCodePage() {
           textAlign: "center",
         }}
       >
-        {code.subCategory?.category?.name} &rsaquo; {code.subCategory?.name}
+        {code.subCategory.category.name} &rsaquo; {code.subCategory.name}
       </p>
 
       {/* Title */}
@@ -162,7 +186,7 @@ export default function ViewCodePage() {
         {code.language}
       </span>
 
-      {/* Code block */}
+      {/* Code block with copy button */}
       <div style={{ position: "relative" }}>
         <button
           onClick={handleCopy}
@@ -186,6 +210,7 @@ export default function ViewCodePage() {
         >
           {copied ? "✓ Copied" : "⎘ Copy"}
         </button>
+
         <SyntaxHighlighter
           language={code.language.toLowerCase()}
           style={nightOwl}

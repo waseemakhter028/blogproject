@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import prisma from "@/lib/db";
+import type { RowDataPacket, ResultSetHeader } from "mysql2";
+import db from "@/lib/db";
 
 const categorySchema = z.object({
   name: z
@@ -19,6 +20,13 @@ const categorySchema = z.object({
     .refine((v) => v === 0 || v === 1, "Status must be 0 or 1"),
 });
 
+const colMap: Record<string, string> = {
+  id: "id",
+  name: "name",
+  status: "status",
+  createdAt: "created_at",
+};
+
 // GET /api/admin/categories — list with pagination
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
@@ -30,21 +38,29 @@ export async function GET(req: NextRequest) {
   const sortBy = allowedSort.includes(searchParams.get("sortBy") ?? "")
     ? (searchParams.get("sortBy") as string)
     : "id";
-  const sortDir = searchParams.get("sortDir") === "asc" ? "asc" : "desc";
+  const sortDir = searchParams.get("sortDir") === "asc" ? "ASC" : "DESC";
+  const col = colMap[sortBy] ?? "id";
 
-  const where = search ? { name: { contains: search } } : {};
+  const whereClause = search ? "WHERE name LIKE ?" : "";
+  const whereParams: (string | number)[] = search ? [`%${search}%`] : [];
 
-  const [data, total] = await Promise.all([
-    prisma.category.findMany({
-      where,
-      orderBy: { [sortBy]: sortDir },
-      skip,
-      take: limit,
-    }),
-    prisma.category.count({ where }),
+  const [[countRows], [data]] = await Promise.all([
+    db.execute<RowDataPacket[]>(
+      `SELECT COUNT(*) AS total FROM categories ${whereClause}`,
+      whereParams,
+    ),
+    db.execute<RowDataPacket[]>(
+      `SELECT id, name, status, created_at AS createdAt, updated_at AS updatedAt FROM categories ${whereClause} ORDER BY ${col} ${sortDir} LIMIT ${limit} OFFSET ${skip}`,
+      whereParams,
+    ),
   ]);
 
-  return NextResponse.json({ data, total, page, limit });
+  return NextResponse.json({
+    data,
+    total: Number(countRows[0].total),
+    page,
+    limit,
+  });
 }
 
 // POST /api/admin/categories — create
@@ -61,7 +77,10 @@ export async function POST(req: NextRequest) {
 
   const { name, status } = parsed.data;
 
-  const exists = await prisma.category.findFirst({ where: { name } });
+  const [[exists]] = await db.execute<RowDataPacket[]>(
+    "SELECT id FROM categories WHERE name = ? LIMIT 1",
+    [name],
+  );
   if (exists) {
     return NextResponse.json(
       { status: "422", errors: { name: ["Name already exists"] } },
@@ -69,6 +88,14 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const category = await prisma.category.create({ data: { name, status } });
+  const [result] = await db.execute<ResultSetHeader>(
+    "INSERT INTO categories (name, status, created_at, updated_at) VALUES (?, ?, NOW(), NOW())",
+    [name, status],
+  );
+  const [[category]] = await db.execute<RowDataPacket[]>(
+    "SELECT id, name, status, created_at AS createdAt, updated_at AS updatedAt FROM categories WHERE id = ?",
+    [result.insertId],
+  );
+
   return NextResponse.json({ status: "200", data: category }, { status: 201 });
 }

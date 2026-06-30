@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/db";
+import type { RowDataPacket } from "mysql2";
+import db from "@/lib/db";
 
 // POST /api/home/filtercodes
 // Body: { subcat_ids: number[] }
@@ -14,21 +15,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ data: [] });
     }
 
-    const codes = await prisma.code.findMany({
-      where: { status: 1, subCategoryId: { in: subcatIds } },
-      orderBy: { id: "desc" },
-      select: {
-        id: true,
-        title: true,
-        image: true,
-        description: true,
-        language: true,
-        status: true,
-        subCategoryId: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
+    const placeholders = subcatIds.map(() => "?").join(", ");
+    const [codes] = await db.execute<RowDataPacket[]>(
+      `SELECT id, sub_category_id AS subCategoryId, image, title,
+              language, status, created_at AS createdAt, updated_at AS updatedAt
+       FROM codes WHERE status = 1 AND sub_category_id IN (${placeholders}) ORDER BY id DESC`,
+      subcatIds,
+    );
 
     return NextResponse.json({
       data: codes.map((c) => ({
