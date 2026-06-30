@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const page = Math.max(1, Number(searchParams.get("page") ?? 1));
-    const perPage = 9;
+    const perPage = 6;
     const skip = (page - 1) * perPage;
 
     const [[categories], [subcategories], [countRows], [codes]] =
