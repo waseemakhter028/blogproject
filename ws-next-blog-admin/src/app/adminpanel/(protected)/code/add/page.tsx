@@ -46,7 +46,7 @@ export default function CodeAddPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const fileInputRef = useRef<() => void>(null);
+  const fileInputRef = useRef<HTMLButtonElement>(null);
 
   const form = useForm({
     validate: schemaResolver(schema),
