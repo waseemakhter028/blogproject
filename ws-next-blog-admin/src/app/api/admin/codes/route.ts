@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 import prisma from "@/lib/db";
 
 const codeSchema = z.object({
   subCategoryId: z.coerce
-    .number({ invalid_type_error: "Please select a sub category" })
+    .number({ error: "Please select a sub category" })
     .int()
     .positive("Please select a sub category"),
   title: z
@@ -51,11 +52,12 @@ export async function GET(req: NextRequest) {
     const sortBy = allowedSort.includes(searchParams.get("sortBy") ?? "")
       ? (searchParams.get("sortBy") as string)
       : "id";
-    const sortDir = searchParams.get("sortDir") === "asc" ? "asc" : "desc";
+    const sortDir: Prisma.SortOrder =
+      searchParams.get("sortDir") === "asc" ? "asc" : "desc";
 
     const where = search ? { title: { contains: search } } : {};
 
-    const buildOrderBy = () => {
+    const buildOrderBy = (): Prisma.CodeOrderByWithRelationInput => {
       if (sortBy === "subCategoryName")
         return { subCategory: { name: sortDir } };
       if (sortBy === "categoryName")

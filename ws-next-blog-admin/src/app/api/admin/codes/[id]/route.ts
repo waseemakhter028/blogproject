@@ -4,7 +4,7 @@ import prisma from "@/lib/db";
 
 const codeUpdateSchema = z.object({
   subCategoryId: z.coerce
-    .number({ invalid_type_error: "Please select a sub category" })
+    .number({ error: "Please select a sub category" })
     .int()
     .positive("Please select a sub category"),
   title: z
